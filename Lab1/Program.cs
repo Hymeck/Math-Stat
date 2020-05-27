@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OxyPlot;
-using OxyPlot.Pdf;
-using OxyPlot.Axes;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Tables;
 
 namespace Lab1
 {
@@ -19,15 +19,18 @@ namespace Lab1
 
         static void Main(string[] args)
         {
-            var sample = new Sample(
-                new VariableGenerator(-pi / 2, pi / 2, 10), 
+            var sampleHandler = new SampleHandler(
+                new VariableGenerator(-pi / 2, pi / 2, 30), 
                 x => Math.Cos(x));
-            
-            var samplePoints = sample.GetSamplePoints(true);
-            for (int i = 0; i < samplePoints.Length; i++)
-            {
-                Console.Write($"{samplePoints[i]} ");
-            }
+
+            TableHandler sampleInfo = new TableHandler("Sample table: cos(Y_i)");
+            sampleInfo.SetTable(
+                new string[] { "Y_i", "n_i", "w_i", "w_a"},
+                sampleHandler.ToTableRows());
+
+            sampleInfo.DrawTable("Table.pdf");
+            sampleInfo.OpenTable("Table.pdf");
         }
+
     }
 }

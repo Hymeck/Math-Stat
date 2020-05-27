@@ -6,20 +6,17 @@ using System.Threading.Tasks;
 
 namespace Lab1
 {
-    public class VariableGenerator
+    public class VariableGenerator : Random
     {
         uint _count;
         double _leftBound;
         double _rightBound;
 
-        Random randomProvider;
-
-        public VariableGenerator(double leftBound, double rightBound, uint count)
+        public VariableGenerator(double leftBound, double rightBound, uint count) : base()
         {
             _leftBound = leftBound;
             _rightBound = rightBound;
             _count = count;
-            randomProvider = new Random();
         }
 
         public double[] GetVariables()
@@ -28,7 +25,7 @@ namespace Lab1
 
             double boundDifference = _rightBound - _leftBound;
             for (uint i = 0; i < _count; i++)
-                variables[i] = _leftBound + (boundDifference * randomProvider.NextDouble()); // boundDifference * eps_i
+                variables[i] = _leftBound + (boundDifference * Sample()); // boundDifference * eps_i
 
             return variables;
         }
