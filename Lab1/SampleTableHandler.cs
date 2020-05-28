@@ -7,32 +7,33 @@ using System.Linq;
 
 namespace Lab1
 {
-    public class TableHandler
+    public class SampleTableHandler
     {
         string _tableName;
         DataTable _table;
+        public DataTable Table => _table.Copy();
 
-        public TableHandler(string tableName)
+        public SampleTableHandler(string tableName)
         {
             _tableName = tableName;
             _table = new DataTable(_tableName);
         }
 
-        public void SetTable(string[] headers, string[,] data)
+        public void Set(string[] headers, object[,] data)
         {
             for (int i = 0; i < headers.Length; i++)
                 _table.Columns.Add(headers[i]);
 
             for (int i = 0; i < data.GetLength(0); i++)
             {
-                string[] row = Enumerable.Range(0, data.GetLength(1))
+                object[] row = Enumerable.Range(0, data.GetLength(1))
                                          .Select(x => data[i, x])
                                          .ToArray();
                 _table.Rows.Add(row);
             }
         }
 
-        public void DrawTable(string fileName)
+        public void Draw(string fileName)
         {
             PdfLightTable pdfLightTable = new PdfLightTable { DataSource = _table };
 
@@ -48,7 +49,7 @@ namespace Lab1
             doc.Close(true);
         }
 
-        public void OpenTable(string fileName)
+        public void Open(string fileName)
         {
             Process.Start(fileName);
         }
