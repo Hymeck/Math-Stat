@@ -2,6 +2,7 @@
 using ScottPlot;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 
 namespace Lab1
 {
@@ -9,6 +10,12 @@ namespace Lab1
     {
         double[] _values;
         double[] _accumulatedFrequencies;
+
+        Color blueColor = Color.Blue;
+        Color blackColor = Color.Black;
+        MarkerShape puncturedPoint = MarkerShape.openCircle;
+        const double markerSize = 6;
+        const double lineWidth = 2;
 
         public SampleChartHandler(DataTable sampleTable)
         {
@@ -24,7 +31,7 @@ namespace Lab1
             }
         }
 
-        public void Plot(string fileName)
+        public void PlotEmpirical(string fileName)
         {
             var plt = new Plot();
             int length = _values.Length;
@@ -32,19 +39,34 @@ namespace Lab1
                    max = _values[length - 1], 
                    continious = Math.Abs(max - min) / 5;
 
-            plt.PlotLine(-continious, 0, min, 0, Color.Blue, lineWidth: 2);
+            plt.PlotLine(-continious, 0, min, 0, blueColor, lineWidth: lineWidth);
             for (int i = 0; i < length - 1; i++)
             {
                 double x = _values[i],
                        y = _accumulatedFrequencies[i];
 
-                plt.PlotLine(x, y, _values[i + 1], y, Color.Blue, lineWidth: 2);
-                plt.PlotPoint(x, y, markerShape: MarkerShape.openCircle, color: Color.Black, markerSize: 6);
+                plt.PlotLine(x, y, _values[i + 1], y, blueColor, lineWidth: lineWidth);
+                plt.PlotPoint(x, y, markerShape: puncturedPoint, color: blackColor, markerSize: markerSize);
             }
-            plt.PlotPoint(max, 1, markerShape: MarkerShape.openCircle, color: Color.Black, markerSize: 6);
-            plt.PlotLine(max, 1, max + continious, 1, Color.Blue, lineWidth: 2);
+            plt.PlotPoint(max, 1, markerShape: puncturedPoint, color: blackColor, markerSize: markerSize);
+            plt.PlotLine(max, 1, max + continious, 1, blueColor, lineWidth: lineWidth);
 
             plt.YLabel("F*(X)");
+            plt.XLabel("X");
+
+            plt.AxisAuto(0);
+            plt.SaveFig(fileName);
+        }
+
+        public void PlotAnalitycal(string fileName)
+        {
+            var plt = new Plot();
+
+            var points = _values.Select(x => 1 - (2 * Math.Acos(x) / Math.PI)).ToArray();
+
+            plt.PlotScatter(_values, points, blueColor, lineWidth, markerSize: 0);
+
+            plt.YLabel("F(X)");
             plt.XLabel("X");
 
             plt.AxisAuto(0);

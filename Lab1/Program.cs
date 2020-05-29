@@ -26,8 +26,9 @@ namespace Lab1
 
             sampleTable.Draw("Sample_Table.pdf");
             //sampleTable.Open("Table.pdf");
-            var test = new SampleChartHandler(sampleTable.Table);
-            test.Plot("Sample_Chart.png");
+            var chartHandler = new SampleChartHandler(sampleTable.Table);
+            chartHandler.PlotEmpirical("SampleChart_Empirical.png");
+            chartHandler.PlotAnalitycal("SampleChart_Analitycal.png");
         }
 
     }
