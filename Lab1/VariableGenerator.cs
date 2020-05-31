@@ -25,7 +25,7 @@ namespace Lab1
 
             double boundDifference = _rightBound - _leftBound;
             for (uint i = 0; i < _count; i++)
-                variables[i] = _leftBound + (boundDifference * Sample()); // boundDifference * eps_i
+                variables[i] = _leftBound + (boundDifference * Sample());
 
             return variables;
         }

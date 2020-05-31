@@ -13,7 +13,7 @@ namespace Lab1
         DataTable _table;
         public DataTable Table => _table.Copy();
 
-        public SampleTableHandler(string tableName)
+        public SampleTableHandler(string tableName = null)
         {
             _tableName = tableName;
             _table = new DataTable(_tableName);

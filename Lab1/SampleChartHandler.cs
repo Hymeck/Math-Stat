@@ -2,7 +2,6 @@
 using ScottPlot;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 
 namespace Lab1
 {
@@ -52,21 +51,6 @@ namespace Lab1
             plt.PlotLine(max, 1, max + continious, 1, blueColor, lineWidth: lineWidth);
 
             plt.YLabel("F*(X)");
-            plt.XLabel("X");
-
-            plt.AxisAuto(0);
-            plt.SaveFig(fileName);
-        }
-
-        public void PlotAnalitycal(string fileName)
-        {
-            var plt = new Plot();
-
-            var points = _values.Select(x => 1 - (2 * Math.Acos(x) / Math.PI)).ToArray();
-
-            plt.PlotScatter(_values, points, blueColor, lineWidth, markerSize: 0);
-
-            plt.YLabel("F(X)");
             plt.XLabel("X");
 
             plt.AxisAuto(0);
