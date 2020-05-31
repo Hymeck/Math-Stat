@@ -15,18 +15,18 @@ namespace Lab1
                 Console.Write("Volume: ");
             }
 
-            var variableGenerator = new VariableGenerator(-pi / 2, pi / 2, volume);
-            double[] xs = variableGenerator.GetVariables();
-            var sampleHandler = new SampleHandler(xs, x => Math.Cos(x));
+            double[] arguments = new VariableGenerator(-pi / 2, pi / 2, volume).GetVariables();
+            var sampleHandler = new SampleHandler(arguments, x => Math.Cos(x));
 
             var sampleTable = new SampleTableHandler();
-            sampleTable.Set(
-                new string[] { "Y_i", "n_i", "w_i", "w_a"},
-                sampleHandler.ToTableRows());
-            sampleTable.Draw("Sample_Table.pdf");
+            sampleTable.Set(new string[] { "Y_i", "n_i", "w_i", "w_a"},
+                            sampleHandler.ToTableRows());
+            sampleTable.Draw("SampleTable.pdf");
 
-            var chartHandler = new SampleChartHandler(sampleTable.Table);
-            chartHandler.PlotEmpirical("SampleChart_Empirical.png");
+            var chartHandler = new SampleChartHandler(sampleTable.Table, 
+                                                      arguments, 
+                                                      sampleHandler.Function);
+            chartHandler.Plot("SampleChart.png");
         }
     }
 }

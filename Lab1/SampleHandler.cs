@@ -6,7 +6,13 @@ namespace Lab1
 {
     public class SampleHandler
     {
-        Func<double, double> _function;
+        static int _tableRoundDigits = 6;
+        static int _sampleRoundDigits = 1;
+
+        public Func<double, double> Function { get; private set; }
+
+        Dictionary<double, int> _sample;
+        public Dictionary<double, int> Sample => new Dictionary<double, int>(_sample);
 
         double[] _samplePoints;
         public double[] SamplePoints
@@ -20,15 +26,11 @@ namespace Lab1
 
             private set
             {
-                //double[] samplePoints = value.Select(x => Math.Round(_function(x), 1)).ToArray();
-                double[] samplePoints = value.Select(x => Math.Round(_function(x), 1)).ToArray();
+                double[] samplePoints = value.Select(x => Math.Round(Function(x), _sampleRoundDigits)).ToArray();
                 Array.Sort(samplePoints);
                 _samplePoints = samplePoints;
             }
         }
-
-        Dictionary<double, int> _sample;
-        public Dictionary<double, int> Sample => new Dictionary<double, int>(_sample);
 
         void SetSample()
         {
@@ -49,7 +51,7 @@ namespace Lab1
 
         public SampleHandler(double[] arguments, Func<double, double> function)
         {
-            _function = function;
+            Function = function;
             SamplePoints = arguments;
             SetSample();
         }
@@ -63,12 +65,10 @@ namespace Lab1
 
             int[] counts = _sample.Values.ToArray();
             double[] points = _sample.Keys.ToArray();
-
-            int roundDigits = 6;
             for (int i = 0; i < size; i++)
             {
                 double count = counts[i],
-                       relativeFrequency = Math.Round(count / volume, roundDigits),
+                       relativeFrequency = Math.Round(count / volume, _tableRoundDigits),
                        accumulatedFrequency = relativeFrequency;
 
                 if (i != 0)

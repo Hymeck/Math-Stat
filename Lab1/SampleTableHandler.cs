@@ -48,10 +48,5 @@ namespace Lab1
             doc.Save(fileName);
             doc.Close(true);
         }
-
-        public void Open(string fileName)
-        {
-            Process.Start(fileName);
-        }
     }
 }
