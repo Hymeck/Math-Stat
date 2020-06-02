@@ -62,6 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarChartHandler.cs" />
+    <Compile Include="ChiSquaredTest.cs" />
+    <Compile Include="HistogramData.cs" />
     <Compile Include="SampleChartHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

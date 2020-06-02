@@ -4,12 +4,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 
-namespace Lab1
+namespace Labs
 {
     public class SampleChartHandler
     {
         Func<double, double> _analyticalFunction = x => 1 - (2 * Math.Acos(x) / Math.PI);
-
         double[] _analyticalValues;
 
         double[] _empiricalValues;

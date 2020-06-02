@@ -2,18 +2,18 @@
 using Syncfusion.Pdf.Tables;
 using Syncfusion.Pdf;
 using System.Drawing;
-using System.Diagnostics;
 using System.Linq;
 
-namespace Lab1
+namespace Labs
 {
-    public class SampleTableHandler
+    public class TableHandler
     {
         string _tableName;
+
         DataTable _table;
         public DataTable Table => _table.Copy();
 
-        public SampleTableHandler(string tableName = null)
+        public TableHandler(string tableName = null)
         {
             _tableName = tableName;
             _table = new DataTable(_tableName);

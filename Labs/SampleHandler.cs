@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lab1
+namespace Labs
 {
     public class SampleHandler
     {
@@ -13,6 +13,8 @@ namespace Lab1
 
         Dictionary<double, int> _sample;
         public Dictionary<double, int> Sample => new Dictionary<double, int>(_sample);
+
+        public int Volume => _samplePoints.Length;
 
         double[] _samplePoints;
         public double[] SamplePoints
@@ -49,9 +51,10 @@ namespace Lab1
             _sample = sample;
         }
 
-        public SampleHandler(double[] arguments, Func<double, double> function)
+        public SampleHandler(double[] arguments, Func<double, double> function, int roundDigits = 1)
         {
             Function = function;
+            _sampleRoundDigits = roundDigits;
             SamplePoints = arguments;
             SetSample();
         }
