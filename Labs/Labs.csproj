@@ -65,6 +65,8 @@
     <Compile Include="HistogramHandler.cs" />
     <Compile Include="ChiSquaredTest.cs" />
     <Compile Include="HistogramData.cs" />
+    <Compile Include="KolmogorovTest.cs" />
+    <Compile Include="MisesCriterion.cs" />
     <Compile Include="SampleChartHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

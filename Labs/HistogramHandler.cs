@@ -19,7 +19,7 @@ namespace Labs
             _histogramData = histogramData;
         }
 
-        public void Plot()
+        public void Plot(string fileName)
         {
             // 0 - leftBounds; 1 - rightBounds, 2 - differences; 3 - densityValues
             var data = _histogramData.Data;
@@ -51,7 +51,7 @@ namespace Labs
             plt.YLabel("f*(Y)");
             plt.Legend(location: legendLocation.upperLeft);
 
-            plt.SaveFig("TestBar.png");
+            plt.SaveFig(fileName);
         }
     }
 }

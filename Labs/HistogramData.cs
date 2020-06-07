@@ -23,35 +23,35 @@ namespace Labs
         {
             get
             {
-                int volume = _samplePoints.Length;
-                int intervalCount = IntervalCount;
+                int volume = _samplePoints.Length; // n
+                int intervalCount = IntervalCount; // M
 
-                double[] leftBounds = new double[intervalCount],
-                         rightBounds = new double[intervalCount],
-                         differences = new double[intervalCount],
-                         densityValues = new double[intervalCount];
+                double[] leftBounds = new double[intervalCount], // A
+                         rightBounds = new double[intervalCount], // B
+                         differences = new double[intervalCount], // h
+                         densityValues = new double[intervalCount]; // f*
 
                 leftBounds[0] = _samplePoints[0]; // A_0
 
-                int elementsPerInterval = ElementsPerInterval;
-                double factor = (double)1 / intervalCount;
-                for (int i = 1; i < intervalCount; i++)
+                int elementsPerInterval = ElementsPerInterval, j, index;
+                double factor = (double)1 / intervalCount; // in f*_i formula: v_i/n; v_i/n = (n/M)/ n = 1 / M
+                for (int i = 1; i < intervalCount; i++) // i = 1..M - 1
                 {
-                    int j = i - 1,
-                        index = i * elementsPerInterval;
+                    index = i * elementsPerInterval;
                     double leftBound = (_samplePoints[index - 1] +
                                         _samplePoints[index]) / 2;
 
-                    rightBounds[j] = leftBounds[i] = leftBound;
-                    differences[j] = leftBound - leftBounds[j];
-                    densityValues[j] = factor / differences[j];
+                    j = i - 1;
+                    rightBounds[j] = leftBounds[i] = leftBound; // B_i-1 = A_i
+                    differences[j] = leftBound - leftBounds[j]; // h_i-1 = B_i-1 - A_i-1
+                    densityValues[j] = factor / differences[j]; // f*_i-1 = 1 / (M * h_i-1)
                 }
 
-                intervalCount--;
+                intervalCount--; // just for simplicity to set values to last elements of B, h, f*
 
-                rightBounds[intervalCount] = _samplePoints[volume - 1];
-                differences[intervalCount] = rightBounds[intervalCount] - leftBounds[intervalCount];
-                densityValues[intervalCount] = factor / differences[intervalCount];
+                rightBounds[intervalCount] = _samplePoints[volume - 1]; // B_last = x_last;
+                differences[intervalCount] = rightBounds[intervalCount] - leftBounds[intervalCount]; // h_i_last
+                densityValues[intervalCount] = factor / differences[intervalCount]; // f*_i_last
 
                 var data = new List<double[]>(4)
                 {
