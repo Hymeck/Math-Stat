@@ -39,7 +39,7 @@ namespace Labs
                 {
                     index = i * elementsPerInterval;
                     double leftBound = (_samplePoints[index - 1] +
-                                        _samplePoints[index]) / 2;
+                                        _samplePoints[index]) / 2; // A_i = (x[(n/M) - 1] + x[n/M]) / 2
 
                     j = i - 1;
                     rightBounds[j] = leftBounds[i] = leftBound; // B_i-1 = A_i
