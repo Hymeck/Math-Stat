@@ -62,14 +62,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BarChartHandler.cs" />
+    <Compile Include="HistogramHandler.cs" />
     <Compile Include="ChiSquaredTest.cs" />
     <Compile Include="HistogramData.cs" />
     <Compile Include="SampleChartHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleHandler.cs" />
-    <Compile Include="SampleTableHandler.cs" />
+    <Compile Include="TableHandler.cs" />
     <Compile Include="VariableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
