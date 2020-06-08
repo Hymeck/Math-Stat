@@ -6,8 +6,8 @@ namespace Labs
     {
         static int _tableRoundDigits = 6;
         // alpha = 0.01;
-        // freedomPower = 8;
-        static double chiSquared = 20.10; // chi_0.01,8 = 20.10
+        // freedomPower k = M - 1 - S = 9 - 1 - 2 = 6;
+        static double chiSquared = 16.81;
 
         Func<double, double> _analyticalDistributionFunction = x => 1 - (2 * Math.Acos(x) / Math.PI);
         HistogramData _histogramData;
