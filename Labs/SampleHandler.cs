@@ -34,6 +34,41 @@ namespace Labs
             }
         }
 
+        // несмещеннная состоятельная оценка математического ожидания (выборочная средняя)
+        public double SampleMean
+        {
+            get
+            {
+                double sampleMean = 0;
+
+                int volume = _samplePoints.Length;
+                for (int i = 0; i < volume; i++)
+                    sampleMean += _samplePoints[i];
+
+                return sampleMean / volume;
+            }
+        }
+
+        // несмещенная состоятельная оценка дисперсии
+        public double UnbiasedSampleVariance => SampleVariance(true);
+        // смещенная состоятельная оценка дисперсии
+        public double BiasedSampleVariance => SampleVariance(false);
+
+        double SampleVariance(bool isUnbiased)
+        {
+            double sampleMean = SampleMean,
+                       sampleVariance = 0;
+
+            int volume = _samplePoints.Length;
+            for (int i = 0; i < volume; i++)
+                sampleVariance += Math.Pow(_samplePoints[i] - sampleMean, 2);
+
+            if (isUnbiased)
+                return sampleVariance / (volume - 1);
+            else
+                return sampleVariance / volume;
+        }
+
         void SetSample()
         {
             int volume = _samplePoints.Length;
