@@ -167,7 +167,7 @@ namespace Labs
         // S * t_gamma_n-1 / sqrt(n - 1)
         static double MeanDeviation(double variance, int volume, double studentTFunctionValue)
         {
-            return studentTFunctionValue * Math.Sqrt(variance / volume - 1);
+            return studentTFunctionValue * Math.Sqrt(variance) / Math.Sqrt(volume - 1);
         }
 
         // n * S^2 / chi-squared
@@ -199,9 +199,30 @@ namespace Labs
             plt.SaveFig(fileName);
         }
 
+        static void DrawWithVolume(List<double[]> deviationList, string fileName)
+        {
+            var plt = new Plot();
+
+            double[] averageValues = new double[volumes.Length];
+            for (int i = 0; i < volumes.Length; i++)
+            {
+                double averageValue = 0;
+                for (int j = 0; j < deviationList[i].Length; j++)
+                    averageValue += deviationList[i][j];
+
+                averageValues[i] = averageValue / deviationList[i].Length;
+            }
+
+            plt.PlotScatter(volumes.Select(x => (double)x).ToArray(), averageValues);
+            plt.XLabel("Volume");
+            plt.YLabel("Average confidence interval value");
+            plt.SaveFig(fileName);
+        }
+
         static void Lab4Task1(double analyticalVariance)
         {
             int count = 1;
+            var deviationsList = new List<double[]>();
             foreach (int volume in volumes)
             {
                 double[] arguments = new VariableGenerator(leftBound, rightBound, (uint)volume).GetVariables();
@@ -229,14 +250,17 @@ namespace Labs
                 }
                 Console.WriteLine();
 
-                Draw(deviations, deviationsWithTrueVariance, $"Lab3Task1_Gamma-dependence_{count}.png");
+                Draw(deviations, deviationsWithTrueVariance, $"Lab3Task1_SampleMean-GammaDependence_{count}.png");
+                deviationsList.Add(deviations);
                 count++;
             }
+            DrawWithVolume(deviationsList, "Lab3Task1_SampleMean-VolumeDependence.png");
         }
 
         static void Lab4Task2()
         {
             int count = 1;
+            var deviationsList = new List<double[]>();
             foreach (int volume in volumes)
             {
                 double[] arguments = new VariableGenerator(leftBound, rightBound, (uint)volume).GetVariables();
@@ -269,9 +293,11 @@ namespace Labs
                                       $"Chi-squared left = {Math.Round(chiSquaredLeftValues[volume][i], 4)}, " +
                                       $"Chi-squared right = {Math.Round(chiSquaredRightValues[volume][i], 4)}");
                 }
-                Draw(deviations, deviationsWithTrueMean, $"Lab3Task2_Gamma-dependence_{count}.png", false);
+                Draw(deviations, deviationsWithTrueMean, $"Lab3Task2_SampleVariance-GammaDependence_{count}.png", false);
+                deviationsList.Add(deviations);
                 count++;
             }
+            DrawWithVolume(deviationsList, "Lab3Task2_SampleVariance-VolumeDependence.png");
         }
 
         static void Lab4()
