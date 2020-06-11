@@ -7,9 +7,13 @@ namespace Labs
 {
     class Program
     {
+        // Y = cos(X); a = -pi / 2; b = pi / 2;
         static double pi = Math.PI;
 
-        // Y = cos(X); a = -pi / 2; b = pi / 2;
+        Func<double, double> AnaliticalDensityFunction = x => 2 / (Math.PI * Math.Sqrt(1 - (x * x)));
+        static double analyticalVariance = 0.0947;
+        static double analyticalMean = 2 / pi;
+
         static double leftBound = -pi / 2;
         static double rightBound = pi / 2;
         static void Main(string[] args)
@@ -152,18 +156,6 @@ namespace Labs
         // n
         static int[] volumes = new int[] { 20, 30, 50, 70, 100, 150 };
 
-        // D(X) = (b - a)^2 / 12;
-        static double AnalyticalVariance(double leftBound, double rightBound)
-        {
-            return Math.Pow(rightBound - leftBound, 2) / 12;
-        }
-
-        // M(X) = (a + b) / 2;
-        static double AnalyticalMean(double leftBound, double rightBound)
-        {
-            return (leftBound + rightBound) / 2;
-        }
-
         // S * t_gamma_n-1 / sqrt(n - 1)
         static double MeanDeviation(double variance, int volume, double studentTFunctionValue)
         {
@@ -171,9 +163,9 @@ namespace Labs
         }
 
         // n * S^2 / chi-squared
-        static double VarianceDeviation(double varince, int volume, double chiSquared)
+        static double VarianceDeviation(double variance, int volume, double chiSquared)
         {
-            return volume * varince / chiSquared;
+            return volume * variance / chiSquared;
         }
 
         static void Draw(double[] deviations, double[] deviationsWithTrueCharacteristic, string fileName, bool isMean = true)
@@ -288,11 +280,12 @@ namespace Labs
                     deviationsWithTrueMean[i] = rightDeviationsWithBiasedVariance[i] - leftDeviationsWithBiasedVariance[i];
                     deviations[i] = rightDeviations[i] - leftDeviations[i];
 
-                    Console.WriteLine($"{Math.Round(unbiasedSampleVariance - leftDeviations[i], 4)} <= Variance <= " +
-                                      $"{Math.Round(unbiasedSampleVariance + rightDeviations[i], 4)} " +
+                    Console.WriteLine($"{Math.Round(leftDeviations[i], 4)} <= Variance <= " +
+                                      $"{Math.Round(rightDeviations[i], 4)} " +
                                       $"Chi-squared left = {Math.Round(chiSquaredLeftValues[volume][i], 4)}, " +
                                       $"Chi-squared right = {Math.Round(chiSquaredRightValues[volume][i], 4)}");
                 }
+                Console.WriteLine();
                 Draw(deviations, deviationsWithTrueMean, $"Lab3Task2_SampleVariance-GammaDependence_{count}.png", false);
                 deviationsList.Add(deviations);
                 count++;
@@ -302,8 +295,7 @@ namespace Labs
 
         static void Lab4()
         {
-            double analyticalVariance = AnalyticalVariance(0, 1);
-            Console.WriteLine($"Analytical mean: {AnalyticalMean(0, 1)}");
+            Console.WriteLine($"Analytical mean: {analyticalMean}");
             Console.WriteLine($"Analytical variance: {analyticalVariance}\n\n");
             Lab4Task1(analyticalVariance);
             Console.WriteLine("\n\n\n");
